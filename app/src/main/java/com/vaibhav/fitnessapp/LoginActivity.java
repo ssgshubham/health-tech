@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView register;
     ImageView registerImage;
     boolean loggedIn = false;
+    String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +46,26 @@ public class LoginActivity extends AppCompatActivity {
         try {
             SharedPreferences sharedPreferences = getSharedPreferences("loggedInStatus", MODE_PRIVATE);
             loggedIn = sharedPreferences.getBoolean("loggedIn", false);
+            SharedPreferences sharedPreferences1 = getSharedPreferences("Role", MODE_PRIVATE);
+            role = sharedPreferences1.getString("Role", "");
             Log.d("MSg", "" + loggedIn);
         } catch(Exception e) {
             Log.d("MSg catch", "" + loggedIn);
         }
         if(loggedIn) {
-            Intent intent=new Intent(LoginActivity.this, DrawerUser.class);
-            startActivity(intent);
-            finish();
+            if(role.equals("User")) {
+                Intent intent = new Intent(LoginActivity.this, DrawerUser.class);
+                startActivity(intent);
+                finish();
+            } else if(role.equals("Doctor")) {
+                Intent intent = new Intent(LoginActivity.this, HomeDoctor.class);
+                startActivity(intent);
+                finish();
+            } else if(role.equals("Chemist")) {
+                Intent intent = new Intent(LoginActivity.this, HomeChemist.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -105,8 +118,19 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editStatus = sharedPreferences.edit();
                             editStatus.putBoolean("loggedIn", true);
                             editStatus.apply();
-                            Intent intent = new Intent(LoginActivity.this, DrawerUser.class);
-                            startActivity(intent);
+                            if(role.equals("User")) {
+                                Intent intent = new Intent(LoginActivity.this, DrawerUser.class);
+                                startActivity(intent);
+                                finish();
+                            } else if(role.equals("Doctor")) {
+                                Intent intent = new Intent(LoginActivity.this, HomeDoctor.class);
+                                startActivity(intent);
+                                finish();
+                            } else if(role.equals("Chemist")) {
+                                Intent intent = new Intent(LoginActivity.this, HomeChemist.class);
+                                startActivity(intent);
+                                finish();
+                            }
                             finish();
                         } else {
                             if(task.getException() instanceof FirebaseAuthInvalidCredentialsException){

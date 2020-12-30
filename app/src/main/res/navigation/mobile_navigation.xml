@@ -18,16 +18,12 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_past_appointments"
-        android:name="com.vaibhav.fitnessapp.ui.previous_orders.PreviousOrdersFragment"
-        android:label="Past Appointments"
-        tools:layout="@layout/fragment_past_appointments" />
+        android:id="@+id/nav_help"
+        android:name="com.vaibhav.fitnessapp.ui.help.HelpFragment"
+        android:label="Help Us Improve"
+        tools:layout="@layout/fragment_help" />
 
-    <fragment
-        android:id="@+id/nav_previous_orders"
-        android:name="com.vaibhav.fitnessapp.ui.previous_orders.PreviousOrdersFragment"
-        android:label="Previous Orders"
-        tools:layout="@layout/fragment_previous_orders" />
+
 
     <fragment
         android:id="@+id/nav_wallet"

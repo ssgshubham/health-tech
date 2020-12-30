@@ -21,8 +21,11 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +56,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText name, emailId, phone, OTP, password, confirmPassword, idProof, address, city, state, age, preExisting;
+    EditText name, emailId, phone, OTP, password, confirmPassword, idProof, address, city, state, age, preExisting, gender;
     Button register, resend;
     TextView loginText;
     FirebaseAuth mAuth;
@@ -64,6 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 22;
     int TAKE_IMAGE_CODE = 10001;
     boolean loggedIn = false;
+    Spinner spinner;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,22 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
 
+        spinner = findViewById(R.id.category);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                category = "None";
+            }
+        });
+
         name = findViewById(R.id.name);
         emailId = findViewById(R.id.emailId);
         phone = findViewById(R.id.phone);
@@ -95,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
         age = findViewById(R.id.age);
         preExisting = findViewById(R.id.preExisting);
         OTP = findViewById(R.id.otp);
+        gender = findViewById(R.id.gender);
 
         register = findViewById(R.id.registerButton);
         resend = findViewById(R.id.resend);
@@ -186,7 +208,6 @@ public class RegisterActivity extends AppCompatActivity {
                     OTP.setError("Enter correct OTP");
                     return;
                 }
-
                 if (age.getText().toString() == null) {
                     age.setText("");
                     age.setFocusable(true);
@@ -252,6 +273,7 @@ public class RegisterActivity extends AppCompatActivity {
                 user.setState(state.getText().toString().trim());
                 user.setAge(Integer.parseInt(age.getText().toString().trim()));
                 user.setPreExist(preExisting.getText().toString().trim());
+                user.setGender(category);
 
                 register(user);
             }
@@ -446,6 +468,7 @@ public class RegisterActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         final StorageReference reference = FirebaseStorage.getInstance().getReference()
+                .child("Users")
                 .child("Idproof")
                 .child(name.getText().toString().trim() + phone.getText().toString().trim() + ".jpeg");
 

@@ -9,13 +9,9 @@
             android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_past_appointments"
-            android:icon="@drawable/ic_baseline_content_paste_24"
-            android:title="Past Appointments" />
-        <item
-            android:id="@+id/nav_previous_orders"
-            android:icon="@drawable/ic_baseline_medical_services_24"
-            android:title="Past Orders" />
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_baseline_rate_review_24"
+            android:title="Help Us Improve!" />
         <item
             android:id="@+id/nav_wallet"
             android:icon="@drawable/ic_baseline_account_balance_wallet_24"

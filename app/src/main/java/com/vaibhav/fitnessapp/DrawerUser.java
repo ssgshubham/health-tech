@@ -1,13 +1,25 @@
 package com.vaibhav.fitnessapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,9 +28,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class DrawerUser extends AppCompatActivity {
+import org.json.JSONObject;
+
+public class DrawerUser extends AppCompatActivity implements PaymentResultListener {
 
     private AppBarConfiguration mAppBarConfiguration;
+    double amount1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +46,7 @@ public class DrawerUser extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_wallet, R.id.nav_previous_orders, R.id.nav_past_appointments)
+                R.id.nav_home, R.id.nav_help, R.id.nav_profile, R.id.nav_wallet)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -51,5 +66,87 @@ public class DrawerUser extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void typeOfDoctors(View view) {
+        Intent intent = new Intent(DrawerUser.this, TypeOfDoctors.class);
+        startActivity(intent);
+    }
+
+    public void confirmAppointments(View view) {
+        Intent intent = new Intent(DrawerUser.this, ViewConfirmAppointments.class);
+        startActivity(intent);
+    }
+
+    public void bookAppointment(View view) {
+        Intent intent = new Intent(DrawerUser.this, BookAppointment.class);
+        startActivity(intent);
+    }
+
+    public void medicalMyths(View view) {
+        Intent intent = new Intent(DrawerUser.this, MedicalMyths.class);
+        startActivity(intent);
+    }
+
+    public void payForOrder(View view) {
+        Intent intent = new Intent(DrawerUser.this, PayForOrder.class);
+        startActivity(intent);
+    }
+
+    public void covidSymptoms(View view) {
+        Intent intent = new Intent(DrawerUser.this, Symptoms.class);
+        startActivity(intent);
+    }
+
+    public void startPayment(double amount) {
+        final Activity activity = DrawerUser.this;
+        amount1 = amount;
+        final Checkout checkout = new Checkout();
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", "CWS");
+            options.put("description", "Adding Money");
+            options.put("currency", "INR");
+            double payment = amount1 * 100;
+            options.put("amount", payment);
+            checkout.open(activity, options);
+        } catch (Exception e) {
+            Log.e("Payment", e.toString());
+        }
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.getResult() != null) {
+                            User user = task.getResult().toObject(User.class);
+                            FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+                            db1.collection("users")
+                                    .document(FirebaseAuth.getInstance().getUid())
+                                    .update("wallet", user.getWallet() + amount1)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(DrawerUser.this,"Money added to wallet", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(DrawerUser.this, DrawerUser.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(DrawerUser.this,"Some error occured", Toast.LENGTH_LONG).show();
     }
 }

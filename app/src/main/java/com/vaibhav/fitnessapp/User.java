@@ -10,6 +10,8 @@ public class User {
     private String city;
     private String preExist;
     private int age;
+    private int wallet;
+    private String gender;
 
     public User() {
         this.name = null;
@@ -21,9 +23,11 @@ public class User {
         this.city = null;
         this.preExist = "None";
         this.age = 0;
+        this.wallet = 0;
+        this.gender = null;
     }
 
-    public User(String name, String address, String emailId, String phone, String password, String state, String city, String preExist, int age) {
+    public User(String name, String address, String emailId, String phone, String password, String state, String city, String preExist, int age, int wallet, String gender) {
         this.name = name;
         this.address = address;
         this.emailId = emailId;
@@ -33,6 +37,8 @@ public class User {
         this.city = city;
         this.age = age;
         this.preExist = preExist;
+        this.gender = gender;
+        this.wallet = wallet;
     }
 
     public String getName() {
@@ -107,6 +113,22 @@ public class User {
         this.age = age;
     }
 
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -119,6 +141,8 @@ public class User {
                 ", city='" + city + '\'' +
                 ", preExist='" + preExist + '\'' +
                 ", age=" + age +
+                ", wallet=" + wallet +
+                ", gender=" + gender +
                 '}';
     }
 }

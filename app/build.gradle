@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.vaibhav.fitnessapp"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -48,4 +48,8 @@ dependencies {
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.material:material:1.0.0'
+
+    //RAZORPAY
+    implementation 'com.razorpay:checkout:1.5.16'
+
 }

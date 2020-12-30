@@ -9,11 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <activity android:name=".Symptoms"></activity>
+        <activity android:name=".PayForOrder" />
+        <activity android:name=".PastAppointments" />
+        <activity android:name=".HomeChemist" />
+        <activity android:name=".ViewConfirmAppointments" />
+        <activity android:name=".ViewPrescriptions" />
+        <activity android:name=".HomeDoctor" />
+        <activity android:name=".BookAppointment" />
+        <activity android:name=".MedicalMyths" />
+        <activity android:name=".TypeOfDoctors" />
+        <activity android:name=".ChooseRole" />
+        <activity android:name=".RegisterChemistActivity" />
         <activity
             android:name=".DrawerUser"
             android:label="@string/title_activity_drawer_user"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.Login_Register.NoActionBar" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterDoctorActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,6 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_FUZ8va6gih810N" />
     </application>
 
 </manifest>

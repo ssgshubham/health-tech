@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ModernLogin</string>
+    <string name="app_name">Iryō</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="title_activity_drawer_user">DrawerUser</string>
@@ -13,4 +13,16 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string-array name="categories">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string-array>
+    <string-array name="specialize">
+        <item>General Physician</item>
+        <item>ENT Specialist</item>
+        <item>Cardiologist</item>
+        <item>Paediatrician</item>
+        <item>Dermatologist</item>
+    </string-array>
 </resources>
